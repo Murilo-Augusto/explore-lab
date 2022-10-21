@@ -47,17 +47,17 @@ const cardNumber = document.querySelector("#card-number")
 const cardNumberPattern = {
   mask: [
     {
-      mask: '0000 0000 0000',
+      mask: '0000 0000 0000 0000',
       regex: /^4\d{0,15}/,
       cardtype: 'visa',
     },
     {
-      mask: '0000 0000 0000',
+      mask: '0000 0000 0000 0000',
       regex: /(^5[1-5]\d{0,2}|^22[2-9]\d|^2[3-7]\d{0,2})\d{0,12}/,
       cardtype: 'mastercard',
     },
     {
-      mask: '0000 0000 0000',
+      mask: '0000 0000 0000 0000',
       cardtype: 'default',
     },
   ],
@@ -96,9 +96,20 @@ function updateSecurityCode(code) {
 }
 
 cardNumberMasked.on('accept', () => {
-  updateCardNuber(cardNumberMasked.value)
+  const cardType = cardNumberMasked.masked.currentMask.cardtype
+  setCardType(cardType)
+  updateCardNumber(cardNumberMasked.value)
 })
-function updateCardNuber(number) {
+function updateCardNumber(number) {
   const ccNumber = document.querySelector('.cc-info .cc-number')
   ccNumber.innerText = number.length === 0 ? '1234 5678 9012 3456' : number
+}
+
+expirationDateMasked.on('accept', () => {
+  updateExpirationDate(expirationDateMasked.value)
+})
+
+function updateExpirationDate(date) {
+  const ccExpiration = document.querySelector('.cc-extra .value')
+  ccExpiration.innerText = date.length === 0 ? '02/32' : date
 }
